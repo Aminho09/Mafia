@@ -32,6 +32,7 @@ public class Main {
         boolean start_gameFlag = false;
         int day = 1, night = 1;
         boolean isAssignedJoker = false;
+        boolean savedByDoctor = false;
         while (scanner.hasNext()) {
             String status = scanner.next();
 
@@ -150,6 +151,10 @@ public class Main {
                     boolean isInvalidName = true;
                     System.out.printf("%sDay %d %s\n",ANSI_BRIGHT_BLUE, day, ANSI_RESET);
                     String voter_name, votee_name;
+                    for (Players p :
+                            players) {
+                        p.isVoted = false;
+                    }
                     while (true) {
                         voter_name = scanner.next();
                         if (voter_name.equals("start_game")) {
@@ -265,7 +270,7 @@ public class Main {
                                     break;
                                 }
                             }
-                            if (killed) {
+                            if (killed && !savedByDoctor) {
                                 System.out.println(ANSI_RED +
                                         players[tempIndex].playerName + " was killed" + ANSI_RESET);
                                 break;
@@ -343,6 +348,8 @@ public class Main {
                                                 if (p instanceof Doctor) {
                                                     savedPlayer = players[i].playerName;
                                                     saved = savedPlayer;
+                                                    System.out.println(ANSI_BRIGHT_BLUE + "done" + ANSI_RESET);
+                                                    savedByDoctor = true;
                                                 }
                                                 if (p instanceof Mafia && !(p instanceof Silencer)){
                                                     if (!(players[i] instanceof Mafia))
